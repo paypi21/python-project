@@ -1,5 +1,5 @@
 import flet as ft
-from components import TradePanel, PortfolioPanel, AIPanel, HistoryPanel # ייבוא הפאנל החדש
+from components import TradePanel, PortfolioPanel, AIPanel, HistoryPanel
 
 class PortfolioView:
     def __init__(self, page: ft.Page, controller):
@@ -12,7 +12,7 @@ class PortfolioView:
         self.trade_panel = TradePanel(controller)
         self.portfolio_panel = PortfolioPanel(controller)
         self.ai_panel = AIPanel(controller)
-        self.history_panel = HistoryPanel(controller) # יצירת פאנל היסטוריה
+        self.history_panel = HistoryPanel(controller)
         
         self.trade_panel.content.visible = True
         
@@ -21,7 +21,7 @@ class PortfolioView:
                 self.trade_panel.content,
                 self.portfolio_panel.content,
                 self.ai_panel.content,
-                self.history_panel.content # הוספה למסך
+                self.history_panel.content
             ], expand=True),
             expand=True, padding=20
         )
@@ -51,5 +51,9 @@ class PortfolioView:
 
     def update_table(self, stocks, live_prices=None, spy_change=0.0, transactions=None):
         self.portfolio_panel.update_data(stocks, self.page, live_prices, spy_change)
+        
+        # --- התיקון: מעדכנים עכשיו גם את תפריט ה-AI ---
+        self.ai_panel.update_options(stocks, self.page)
+        
         if transactions:
             self.history_panel.update_data(transactions, self.page)
